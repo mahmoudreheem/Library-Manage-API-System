@@ -1,0 +1,2916 @@
+{
+	"info": {
+		"_postman_id": "6038b83b-4366-45c1-aea8-09484b954fde",
+		"name": "Library",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "5101715",
+		"_collection_link": "https://red-resonance-901550.postman.co/workspace/Library~74832242-05ca-40a4-8529-4dfe62edd9b3/collection/5101715-6038b83b-4366-45c1-aea8-09484b954fde?action=share&source=collection_link&creator=5101715"
+	},
+	"item": [
+		{
+			"name": "1- Books",
+			"item": [
+				{
+					"name": "1.1 Create New Book",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"\r",
+									"\r",
+									"// validate response status code is 200\r",
+									"pm.test(\"[1.1] TC01- Validate Status code for creating new Book is 201\", function () {\r",
+									"    pm.response.to.have.status(201);\r",
+									"});\r",
+									"// validate response time less than 1000 ms\r",
+									"pm.test(\"[1.1] TC02- Validate Create Book Response time is less than 1000ms\", function () {\r",
+									"    pm.expect(pm.response.responseTime).to.be.below(1000);\r",
+									"});\r",
+									"// validate response schema as expected\r",
+									"pm.test(\"[1.1] TC03- Validate Create Book Response Schema as expected\", function () {\r",
+									"    var schema = {\r",
+									"  \"type\": \"object\",\r",
+									"  \"properties\": {\r",
+									"    \"title\": {\r",
+									"      \"type\": \"string\"\r",
+									"    },\r",
+									"    \"author\": {\r",
+									"      \"type\": \"string\"\r",
+									"    },\r",
+									"    \"isbn\": {\r",
+									"      \"type\": \"string\"\r",
+									"    },\r",
+									"    \"releaseDate\": {\r",
+									"      \"type\": \"string\"\r",
+									"    }\r",
+									"  },\r",
+									"  \"required\": [\r",
+									"    \"title\",\r",
+									"    \"author\",\r",
+									"    \"isbn\",\r",
+									"    \"releaseDate\"\r",
+									"  ]\r",
+									"}\r",
+									"    pm.response.to.have.jsonSchema(schema)\r",
+									"});\r",
+									"// validate data to be as expected\r",
+									"pm.test(\"[1.1] TC04- Validate title of Book Title return in response is as expected\", function () {\r",
+									"    pm.expect(pm.response.json().title).to.be.equal(JSON.parse(pm.request.body.raw).title);\r",
+									"\r",
+									"});\r",
+									"\r",
+									"pm.test(\"[1.1] TC05- Validate Book author return in response is as expected\", function () {\r",
+									"    pm.expect(pm.response.json().author).to.be.equal(JSON.parse(pm.request.body.raw).author);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"[1.1] TC06- Validate isbn return in response is as expected\", function () {\r",
+									"    pm.expect(pm.response.json().isbn).to.be.equal(JSON.parse(pm.request.body.raw).isbn);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"[1.1] TC07 - Validate Pet Status return in response is as expected\", function () {\r",
+									"    pm.expect(pm.response.json().releaseDate).to.be.equal(JSON.parse(pm.request.body.raw).releaseDate);\r",
+									"});\r",
+									"// save book id\r",
+									" pm.collectionVariables.set(\"BookID\",pm.response.json().id);"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							},
+							{
+								"key": "g-token",
+								"value": "ROM831ESV",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"title\": \"{{$randomProductName}}\",\r\n    \"author\": \"{{$randomFullName}}\",\r\n    \"isbn\": \"{{$randomAlphaNumeric}}\",\r\n    \"releaseDate\": \"{{$randomDateFuture}}\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:3000/books",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"books"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "1.2 Get Book By ID",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"// validate response status code is 200\r",
+									"pm.test(\"[1.2] TC01- Validate Status code for Get Book is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"// validate response time less than 1000 ms\r",
+									"pm.test(\"[1.2] TC02- Validate Get Book Response time is less than 1000ms\", function () {\r",
+									"    pm.expect(pm.response.responseTime).to.be.below(1000);\r",
+									"});\r",
+									"// validate response schema as expected\r",
+									"pm.test(\"[1.2] TC03- Validate Create Book Response Schema as expected\", function () {\r",
+									"    var schema = {\r",
+									"  \"type\": \"object\",\r",
+									"  \"properties\": {\r",
+									"    \"title\": {\r",
+									"      \"type\": \"string\"\r",
+									"    },\r",
+									"    \"author\": {\r",
+									"      \"type\": \"string\"\r",
+									"    },\r",
+									"    \"isbn\": {\r",
+									"      \"type\": \"string\"\r",
+									"    },\r",
+									"    \"releaseDate\": {\r",
+									"      \"type\": \"string\"\r",
+									"    }\r",
+									"  },\r",
+									"  \"required\": [\r",
+									"    \"title\",\r",
+									"    \"author\",\r",
+									"    \"isbn\",\r",
+									"    \"releaseDate\"\r",
+									"  ]\r",
+									"}\r",
+									"    pm.response.to.have.jsonSchema(schema)\r",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "Application/json",
+								"type": "text"
+							},
+							{
+								"key": "G-Token",
+								"value": "ROM831ESV",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "http://localhost:3000/books/:id",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"books",
+								":id"
+							],
+							"variable": [
+								{
+									"key": "id",
+									"value": "{{BookID}}"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "1.3 Update a book by its ID",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"\r",
+									"\r",
+									"// validate response status code is 200\r",
+									"pm.test(\"[1.3] TC01- Validate Status code for creating new Book is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"// validate response time less than 1000 ms\r",
+									"pm.test(\"[1.3] TC02- Validate Create Book Response time is less than 1000ms\", function () {\r",
+									"    pm.expect(pm.response.responseTime).to.be.below(1000);\r",
+									"});\r",
+									"// validate response schema as expected\r",
+									"pm.test(\"[1.3] TC03- Validate Create Book Response Schema as expected\", function () {\r",
+									"    var schema = {\r",
+									"  \"type\": \"object\",\r",
+									"  \"properties\": {\r",
+									"    \"title\": {\r",
+									"      \"type\": \"string\"\r",
+									"    },\r",
+									"    \"author\": {\r",
+									"      \"type\": \"string\"\r",
+									"    },\r",
+									"    \"isbn\": {\r",
+									"      \"type\": \"string\"\r",
+									"    },\r",
+									"    \"releaseDate\": {\r",
+									"      \"type\": \"string\"\r",
+									"    }\r",
+									"  },\r",
+									"  \"required\": [\r",
+									"    \"title\",\r",
+									"    \"author\",\r",
+									"    \"isbn\",\r",
+									"    \"releaseDate\"\r",
+									"  ]\r",
+									"}\r",
+									"    pm.response.to.have.jsonSchema(schema)\r",
+									"});\r",
+									"// validate data to be as expected\r",
+									"pm.test(\"[1.3] TC04- Validate title of Book Title return in response is as expected\", function () {\r",
+									"    pm.expect(pm.response.json().title).to.be.equal(JSON.parse(pm.request.body.raw).title);\r",
+									"\r",
+									"});\r",
+									"\r",
+									"pm.test(\"[1.3] TC05- Validate Book author return in response is as expected\", function () {\r",
+									"    pm.expect(pm.response.json().author).to.be.equal(JSON.parse(pm.request.body.raw).author);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"[1.3] TC06- Validate isbn return in response is as expected\", function () {\r",
+									"    pm.expect(pm.response.json().isbn).to.be.equal(JSON.parse(pm.request.body.raw).isbn);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"[1.3] TC07 - Validate Pet Status return in response is as expected\", function () {\r",
+									"    pm.expect(pm.response.json().releaseDate).to.be.equal(JSON.parse(pm.request.body.raw).releaseDate);\r",
+									"});\r",
+									"// save response book data for using on update\r",
+									" pm.collectionVariables.set(\"UpdatedBookID\",pm.response.json().id);\r",
+									" pm.collectionVariables.set(\"UpdatedBookTitle\",pm.response.json().title);\r",
+									" pm.collectionVariables.set(\"UpdatedBookAuther\",pm.response.json().author);\r",
+									" pm.collectionVariables.set(\"UpdatedBookISBN\",pm.response.json().isbn);\r",
+									" pm.collectionVariables.set(\"UpdatedReleaseDate\",pm.response.json().releaseDate);"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "basic",
+							"basic": [
+								{
+									"key": "password",
+									"value": "admin",
+									"type": "string"
+								},
+								{
+									"key": "username",
+									"value": "admin",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "Application/json",
+								"type": "text"
+							},
+							{
+								"key": "g-token",
+								"value": "ROM831ESV",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"title\": \"{{$randomProductName}}\",\r\n    \"author\": \"{{$randomFullName}}\",\r\n    \"isbn\": \"{{$randomAlphaNumeric}}\",\r\n    \"releaseDate\": \"{{$randomDateFuture}}\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:3000/books/:id",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"books",
+								":id"
+							],
+							"variable": [
+								{
+									"key": "id",
+									"value": "{{BookID}}"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "1.4 Get Book ِAfter Update",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"// validate response status code is 200\r",
+									"pm.test(\"[1.4] TC01- Validate Status code for Get Book is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"// validate response time less than 1000 ms\r",
+									"pm.test(\"[1.4] TC02- Validate Get Book Response time is less than 1000ms\", function () {\r",
+									"    pm.expect(pm.response.responseTime).to.be.below(1000);\r",
+									"});\r",
+									"// validate response schema as expected\r",
+									"pm.test(\"[1.4] TC03- Validate Create Book Response Schema as expected\", function () {\r",
+									"    var schema = {\r",
+									"  \"type\": \"object\",\r",
+									"  \"properties\": {\r",
+									"    \"title\": {\r",
+									"      \"type\": \"string\"\r",
+									"    },\r",
+									"    \"author\": {\r",
+									"      \"type\": \"string\"\r",
+									"    },\r",
+									"    \"isbn\": {\r",
+									"      \"type\": \"string\"\r",
+									"    },\r",
+									"    \"releaseDate\": {\r",
+									"      \"type\": \"string\"\r",
+									"    }\r",
+									"  },\r",
+									"  \"required\": [\r",
+									"    \"title\",\r",
+									"    \"author\",\r",
+									"    \"isbn\",\r",
+									"    \"releaseDate\"\r",
+									"  ]\r",
+									"}\r",
+									"    pm.response.to.have.jsonSchema(schema)\r",
+									"});\r",
+									"const response = pm.response.json();\r",
+									"\r",
+									"// Title\r",
+									"pm.test(\"[1.4] TC04- Title matches collection variable\", () => {\r",
+									"    pm.expect(response.title).to.eql(pm.collectionVariables.get(\"UpdatedBookTitle\"));\r",
+									"});\r",
+									"\r",
+									"// Author\r",
+									"pm.test(\"[1.4] TC05- Author matches collection variable\", () => {\r",
+									"    pm.expect(response.author).to.eql(pm.collectionVariables.get(\"UpdatedBookAuther\"));\r",
+									"});\r",
+									"\r",
+									"// ISBN\r",
+									"pm.test(\"[1.4] TC06- ISBN matches collection variable\", () => {\r",
+									"    pm.expect(response.isbn).to.eql(pm.collectionVariables.get(\"UpdatedBookISBN\"));\r",
+									"});\r",
+									"\r",
+									"// Release date\r",
+									"pm.test(\"[1.4] TC07- Release date matches collection variable\", () => {\r",
+									"    pm.expect(response.releaseDate).to.eql(pm.collectionVariables.get(\"UpdatedReleaseDate\"));\r",
+									"});\r",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "GET",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "Application/json",
+								"type": "text"
+							},
+							{
+								"key": "G-Token",
+								"value": "ROM831ESV",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "http://localhost:3000/books/:id",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"books",
+								":id"
+							],
+							"variable": [
+								{
+									"key": "id",
+									"value": "{{BookID}}"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "1.5 Partialy Update  a book by its ID",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"// parse response once\r",
+									"const response = pm.response.json();\r",
+									"\r",
+									"// validate response status code is 200\r",
+									"pm.test(\"[1.5] TC01- Validate Status code for creating new Book is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"\r",
+									"// validate response time less than 1000 ms\r",
+									"pm.test(\"[1.5] TC02- Validate Create Book Response time is less than 1000ms\", function () {\r",
+									"    pm.expect(pm.response.responseTime).to.be.below(1000);\r",
+									"});\r",
+									"\r",
+									"// validate response schema as expected\r",
+									"pm.test(\"[1.5] TC03- Validate Create Book Response Schema as expected\", function () {\r",
+									"    var schema = {\r",
+									"        \"type\": \"object\",\r",
+									"        \"properties\": {\r",
+									"            \"title\": {\r",
+									"                \"type\": \"string\"\r",
+									"            }\r",
+									"        },\r",
+									"        \"required\": [\r",
+									"            \"title\"\r",
+									"        ]\r",
+									"    };\r",
+									"    pm.response.to.have.jsonSchema(schema);\r",
+									"});\r",
+									"\r",
+									"// validate title\r",
+									"pm.test(\"[1.5] TC04- Validate title of Book Title return in response is as expected\", function () {\r",
+									"    pm.expect(response.title).to.be.equal(JSON.parse(pm.request.body.raw).title);\r",
+									"});\r",
+									"\r",
+									"// Author\r",
+									"pm.test(\"[1.5] TC05- Author matches collection variable\", () => {\r",
+									"    pm.expect(response.author).to.eql(pm.collectionVariables.get(\"UpdatedBookAuther\"));\r",
+									"});\r",
+									"\r",
+									"// ISBN\r",
+									"pm.test(\"[1.5] TC06- ISBN matches collection variable\", () => {\r",
+									"    pm.expect(response.isbn).to.eql(pm.collectionVariables.get(\"UpdatedBookISBN\"));\r",
+									"});\r",
+									"\r",
+									"// Release date\r",
+									"pm.test(\"[1.5] TC07- Release date matches collection variable\", () => {\r",
+									"    pm.expect(response.releaseDate).to.eql(pm.collectionVariables.get(\"UpdatedReleaseDate\"));\r",
+									"});\r",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "basic",
+							"basic": [
+								{
+									"key": "password",
+									"value": "admin",
+									"type": "string"
+								},
+								{
+									"key": "username",
+									"value": "admin",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PATCH",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "Application/json",
+								"type": "text"
+							},
+							{
+								"key": "g-token",
+								"value": "ROM831ESV",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"title\": \"{{UpdatedBookTitle}}\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:3000/books/:id",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"books",
+								":id"
+							],
+							"variable": [
+								{
+									"key": "id",
+									"value": "{{BookID}}"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "1.6 Get Book ِAfter Update Title only",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"// validate response status code is 200\r",
+									"pm.test(\"[1.6] TC01- Validate Status code for Get Book is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"// validate response time less than 1000 ms\r",
+									"pm.test(\"[1.6] TC02- Validate Get Book Response time is less than 1000ms\", function () {\r",
+									"    pm.expect(pm.response.responseTime).to.be.below(1000);\r",
+									"});\r",
+									"// validate response schema as expected\r",
+									"pm.test(\"[1.6] TC03- Validate Create Book Response Schema as expected\", function () {\r",
+									"    var schema = {\r",
+									"  \"type\": \"object\",\r",
+									"  \"properties\": {\r",
+									"    \"title\": {\r",
+									"      \"type\": \"string\"\r",
+									"    },\r",
+									"    \"author\": {\r",
+									"      \"type\": \"string\"\r",
+									"    },\r",
+									"    \"isbn\": {\r",
+									"      \"type\": \"string\"\r",
+									"    },\r",
+									"    \"releaseDate\": {\r",
+									"      \"type\": \"string\"\r",
+									"    }\r",
+									"  },\r",
+									"  \"required\": [\r",
+									"    \"title\",\r",
+									"    \"author\",\r",
+									"    \"isbn\",\r",
+									"    \"releaseDate\"\r",
+									"  ]\r",
+									"}\r",
+									"    pm.response.to.have.jsonSchema(schema)\r",
+									"});\r",
+									"const response = pm.response.json();\r",
+									"\r",
+									"// Title\r",
+									"pm.test(\"[1.6] TC04- Title matches collection variable\", () => {\r",
+									"    pm.expect(response.title).to.eql(pm.collectionVariables.get(\"UpdatedBookTitle\"));\r",
+									"});\r",
+									"\r",
+									"// Author\r",
+									"pm.test(\"[1.6] TC05- Author matches collection variable\", () => {\r",
+									"    pm.expect(response.author).to.eql(pm.collectionVariables.get(\"UpdatedBookAuther\"));\r",
+									"});\r",
+									"\r",
+									"// ISBN\r",
+									"pm.test(\"[1.6] TC06- ISBN matches collection variable\", () => {\r",
+									"    pm.expect(response.isbn).to.eql(pm.collectionVariables.get(\"UpdatedBookISBN\"));\r",
+									"});\r",
+									"\r",
+									"// Release date\r",
+									"pm.test(\"[1.6] TC07- Release date matches collection variable\", () => {\r",
+									"    pm.expect(response.releaseDate).to.eql(pm.collectionVariables.get(\"UpdatedReleaseDate\"));\r",
+									"});\r",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "GET",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "Application/json",
+								"type": "text"
+							},
+							{
+								"key": "G-Token",
+								"value": "ROM831ESV",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "http://localhost:3000/books/:id",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"books",
+								":id"
+							],
+							"variable": [
+								{
+									"key": "id",
+									"value": "{{BookID}}"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "1.7 Delete Book ِBy ID",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"// validate response status code is 200\r",
+									"pm.test(\"[1.7] TC01- Validate Status code for Get Book is 204\", function () {\r",
+									"    pm.response.to.have.status(204);\r",
+									"});\r",
+									"// validate response time less than 1000 ms\r",
+									"pm.test(\"[1.7] TC02- Validate Get Book Response time is less than 1000ms\", function () {\r",
+									"    pm.expect(pm.response.responseTime).to.be.below(1000);\r",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "basic",
+							"basic": [
+								{
+									"key": "password",
+									"value": "admin",
+									"type": "string"
+								},
+								{
+									"key": "username",
+									"value": "admin",
+									"type": "string"
+								}
+							]
+						},
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "Application/json",
+								"type": "text"
+							},
+							{
+								"key": "G-Token",
+								"value": "ROM831ESV",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "http://localhost:3000/books/:id",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"books",
+								":id"
+							],
+							"variable": [
+								{
+									"key": "id",
+									"value": "{{BookID}}"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "1.8 Get Book ِAfter Delete it",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"// validate response status code is 200\r",
+									"pm.test(\"[1.8] TC01- Validate Status code for Get Book is 404\", function () {\r",
+									"    pm.response.to.have.status(404);\r",
+									"});\r",
+									"// validate response time less than 1000 ms\r",
+									"pm.test(\"[1.8] TC02- Validate Get Book Response time is less than 1000ms\", function () {\r",
+									"    pm.expect(pm.response.responseTime).to.be.below(1000);\r",
+									"});\r",
+									"// validate response Body have a message not found \r",
+									"pm.test(\"[1.8] TC03- Validate That Book Not Found\", function () {\r",
+									"    pm.expect(pm.response.json().message).to.eql(\"Book not found\");\r",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "GET",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "Application/json",
+								"type": "text"
+							},
+							{
+								"key": "G-Token",
+								"value": "ROM831ESV",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "http://localhost:3000/books/:id",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"books",
+								":id"
+							],
+							"variable": [
+								{
+									"key": "id",
+									"value": "{{BookID}}"
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "2- Households",
+			"item": [
+				{
+					"name": "2.1 Create a new household",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"// validate response status code is 201\r",
+									"pm.test(\"[2.1] TC01- Validate Status code for creating new Book is 201\", function () {\r",
+									"    pm.response.to.have.status(201);\r",
+									"});\r",
+									"\r",
+									"// validate response time less than 1000 ms\r",
+									"pm.test(\"[2.1] TC02- Validate Create household Response time is less than 1000ms\", function () {\r",
+									"    pm.expect(pm.response.responseTime).to.be.below(1000);\r",
+									"});\r",
+									"\r",
+									"// validate response schema as expected\r",
+									"pm.test(\"[2.1] TC03- Validate Create household Response Schema as expected\", function () {\r",
+									"    const schema = {\r",
+									"        type: \"object\",\r",
+									"        properties: {\r",
+									"            name: { type: \"string\" },\r",
+									"            createdAt: { type: \"string\" },\r",
+									"            updatedAt: { type: \"string\" },\r",
+									"            id: { type: \"integer\" }\r",
+									"        },\r",
+									"        required: [\"name\", \"createdAt\", \"updatedAt\", \"id\"]\r",
+									"    };\r",
+									"    pm.response.to.have.jsonSchema(schema);\r",
+									"});\r",
+									"\r",
+									"// validate 'name' to be as expected\r",
+									"pm.test(\"[2.1] TC04- Validate 'name' in response matches request\", function () {\r",
+									"    const requestBody = JSON.parse(pm.request.body.raw);\r",
+									"    pm.expect(pm.response.json().name).to.eql(requestBody.name);\r",
+									"});\r",
+									"\r",
+									"// validate 'createdAt' is a valid ISO string\r",
+									"pm.test(\"[2.1] TC05- Validate 'createdAt' is a valid ISO timestamp\", function () {\r",
+									"    const createdAt = pm.response.json().createdAt;\r",
+									"    pm.expect(new Date(createdAt).toISOString()).to.eql(createdAt);\r",
+									"});\r",
+									"\r",
+									"// validate 'updatedAt' is a valid ISO string\r",
+									"pm.test(\"[2.1] TC06- Validate 'updatedAt' is a valid ISO timestamp\", function () {\r",
+									"    const updatedAt = pm.response.json().updatedAt;\r",
+									"    pm.expect(new Date(updatedAt).toISOString()).to.eql(updatedAt);\r",
+									"});\r",
+									"\r",
+									"// validate 'id' is a number greater than 0\r",
+									"pm.test(\"[2.1] TC07- Validate 'id' is a positive integer\", function () {\r",
+									"    const id = pm.response.json().id;\r",
+									"    pm.expect(id).to.be.a('number');\r",
+									"    pm.expect(id).to.be.above(0);\r",
+									"});\r",
+									"// save household name \r",
+									" pm.collectionVariables.set(\"housholdName\",pm.response.json().name);\r",
+									" // save Created Date  \r",
+									" pm.collectionVariables.set(\"CreatedAtDate\",pm.response.json().createdAt);\r",
+									"  // save Updated Date  \r",
+									" pm.collectionVariables.set(\"UpdatedAtDate\",pm.response.json().updatedAt);\r",
+									" // save household name \r",
+									" pm.collectionVariables.set(\"householdID\",pm.response.json().id);\r",
+									" "
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "basic",
+							"basic": [
+								{
+									"key": "password",
+									"value": "admin",
+									"type": "string"
+								},
+								{
+									"key": "username",
+									"value": "admin",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "Application/json",
+								"type": "text"
+							},
+							{
+								"key": "g-token",
+								"value": "ROM831ESV",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"name\": \"{{$randomProductName}}\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseURL}}households",
+							"host": [
+								"{{baseURL}}households"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "2.2 Get Household By ID",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"// TC01 - Status code is 200\r",
+									"pm.test(\"[2.2] TC01 - Validate Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"\r",
+									"// TC02 - Response time is under 1000ms\r",
+									"pm.test(\"[2.2] TC02 - Validate response time < 1000ms\", function () {\r",
+									"    pm.expect(pm.response.responseTime).to.be.below(1000);\r",
+									"});\r",
+									"\r",
+									"// validate response schema as expected\r",
+									"pm.test(\"[2.1] TC03- Validate Create household Response Schema as expected\", function () {\r",
+									"    const schema = {\r",
+									"        type: \"object\",\r",
+									"        properties: {\r",
+									"            name: { type: \"string\" },\r",
+									"            createdAt: { type: \"string\" },\r",
+									"            updatedAt: { type: \"string\" },\r",
+									"            id: { type: \"integer\" }\r",
+									"        },\r",
+									"        required: [\"name\", \"createdAt\", \"updatedAt\", \"id\"]\r",
+									"    };\r",
+									"    pm.response.to.have.jsonSchema(schema);\r",
+									"});\r",
+									"\r",
+									"// household id response matched to collection variables\r",
+									"pm.test(\"[2.2] TC04- Release date matches collection variable\", () => {\r",
+									"    pm.expect(pm.response.json().id).to.eql(pm.collectionVariables.get(\"householdID\"));\r",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "basic",
+							"basic": [
+								{
+									"key": "password",
+									"value": "admin",
+									"type": "string"
+								},
+								{
+									"key": "username",
+									"value": "admin",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "Application/json",
+								"type": "text"
+							},
+							{
+								"key": "G-Token",
+								"value": "ROM831ESV",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "http://localhost:3000/households/:id",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"households",
+								":id"
+							],
+							"variable": [
+								{
+									"key": "id",
+									"value": "{{householdID}}"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "2.3 Update a household",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"// validate response status code is 201\r",
+									"pm.test(\"[2.3] TC01- Validate Status code for creating new Book is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"\r",
+									"// validate response time less than 1000 ms\r",
+									"pm.test(\"[2.3] TC02- Validate Create household Response time is less than 1000ms\", function () {\r",
+									"    pm.expect(pm.response.responseTime).to.be.below(1000);\r",
+									"});\r",
+									"\r",
+									"// validate response schema as expected\r",
+									"pm.test(\"[2.3] TC03- Validate Create household Response Schema as expected\", function () {\r",
+									"    const schema = {\r",
+									"        type: \"object\",\r",
+									"        properties: {\r",
+									"            name: { type: \"string\" },\r",
+									"            updatedAt: { type: \"string\" },\r",
+									"        },\r",
+									"        required: [\"name\", \"updatedAt\"]\r",
+									"    };\r",
+									"    pm.response.to.have.jsonSchema(schema);\r",
+									"});\r",
+									"\r",
+									"// validate 'name' to be as expected\r",
+									"pm.test(\"[2.3] TC04- Validate 'name' in response matches request\", function () {\r",
+									"    const requestBody = JSON.parse(pm.request.body.raw);\r",
+									"    pm.expect(pm.response.json().name).to.eql(requestBody.name);\r",
+									"});\r",
+									"// save household name after update \r",
+									" pm.collectionVariables.set(\"NewNameAfterUpdate\",pm.response.json().name);\r",
+									" // save household updateat date after update \r",
+									" pm.collectionVariables.set(\"AfterUpdateAt\",pm.response.json().updatedAt);\r",
+									" pm.collectionVariables.set(\"TTTTitle\",pm.response.json().Title)\r",
+									" pm.collectionVariables.set(\"AfterUpdateID\",pm.response.json().id);"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "basic",
+							"basic": [
+								{
+									"key": "password",
+									"value": "admin",
+									"type": "string"
+								},
+								{
+									"key": "username",
+									"value": "admin",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "Application/json",
+								"type": "text"
+							},
+							{
+								"key": "g-token",
+								"value": "ROM831ESV",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"name\": \"{{$randomProductName}}\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:3000/households/:id",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"households",
+								":id"
+							],
+							"variable": [
+								{
+									"key": "id",
+									"value": "{{householdID}}"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "2.4 Get Household By ID After Update",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"// TC01 - Status code is 200\r",
+									"pm.test(\"[2.4] TC01 - Validate Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"\r",
+									"// TC02 - Response time is under 1000ms\r",
+									"pm.test(\"[2.4] TC02 - Validate response time < 1000ms\", function () {\r",
+									"    pm.expect(pm.response.responseTime).to.be.below(1000);\r",
+									"});\r",
+									"\r",
+									"// validate response schema as expected\r",
+									"pm.test(\"[2.1] TC03- Validate Create household Response Schema as expected\", function () {\r",
+									"    const schema = {\r",
+									"        type: \"object\",\r",
+									"        properties: {\r",
+									"            name: { type: \"string\" },\r",
+									"            createdAt: { type: \"string\" },\r",
+									"            updatedAt: { type: \"string\" },\r",
+									"            id: { type: \"integer\" }\r",
+									"        },\r",
+									"        required: [\"name\", \"createdAt\", \"updatedAt\", \"id\"]\r",
+									"    };\r",
+									"    pm.response.to.have.jsonSchema(schema);\r",
+									"});\r",
+									"// household id response matched to collection variables\r",
+									"pm.test(\"[2.4] TC04- Release date matches collection variable\", () => {\r",
+									"    pm.expect(pm.response.json().id).to.eql(pm.collectionVariables.get(\"householdID\"));\r",
+									"});\r",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "Application/json",
+								"type": "text"
+							},
+							{
+								"key": "G-Token",
+								"value": "ROM831ESV",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "http://localhost:3000/households/:id",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"households",
+								":id"
+							],
+							"variable": [
+								{
+									"key": "id",
+									"value": "{{householdID}}"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "2.5 Delete Household By ID After Update Copy",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"// TC01 - Status code is 200\r",
+									"pm.test(\"[2.5] TC01 - Validate Status code is 202\", function () {\r",
+									"    pm.response.to.have.status(404);\r",
+									"});\r",
+									"\r",
+									"// TC02 - Response time is under 1000ms\r",
+									"pm.test(\"[2.5] TC02 - Validate response time < 1000ms\", function () {\r",
+									"    pm.expect(pm.response.responseTime).to.be.below(1000);\r",
+									"});\r",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "basic",
+							"basic": [
+								{
+									"key": "password",
+									"value": "admin",
+									"type": "string"
+								},
+								{
+									"key": "username",
+									"value": "admin",
+									"type": "string"
+								}
+							]
+						},
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "Application/json",
+								"type": "text"
+							},
+							{
+								"key": "G-Token",
+								"value": "ROM831ESV",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "http://localhost:3000/books/:id",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"books",
+								":id"
+							],
+							"variable": [
+								{
+									"key": "id",
+									"value": "{{householdID}}"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "2.4 Get Household By ID After Delete",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"// TC01 - Status code is 200\r",
+									"pm.test(\"[2.6] TC01 - Validate Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"\r",
+									"// TC02 - Response time is under 1000ms\r",
+									"pm.test(\"[2.6] TC02 - Validate response time < 1000ms\", function () {\r",
+									"    pm.expect(pm.response.responseTime).to.be.below(1000);\r",
+									"});\r",
+									"\r",
+									"// validate response schema as expected\r",
+									"pm.test(\"[2.6] TC03- Validate Create household Response Schema as expected\", function () {\r",
+									"    const schema = {\r",
+									"        type: \"object\",\r",
+									"        properties: {\r",
+									"            name: { type: \"string\" },\r",
+									"            createdAt: { type: \"string\" },\r",
+									"            updatedAt: { type: \"string\" },\r",
+									"            id: { type: \"integer\" }\r",
+									"        },\r",
+									"        required: [\"name\", \"createdAt\", \"updatedAt\", \"id\"]\r",
+									"    };\r",
+									"    pm.response.to.have.jsonSchema(schema);\r",
+									"});\r",
+									"// household id response matched to collection variables\r",
+									"pm.test(\"[2.6] TC04- Release date matches collection variable\", () => {\r",
+									"    pm.expect(pm.response.json().id).to.eql(pm.collectionVariables.get(\"householdID\"));\r",
+									"});\r",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "Application/json",
+								"type": "text"
+							},
+							{
+								"key": "G-Token",
+								"value": "ROM831ESV",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "http://localhost:3000/households/:id",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"households",
+								":id"
+							],
+							"variable": [
+								{
+									"key": "id",
+									"value": "{{householdID}}"
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "3- Users",
+			"item": [
+				{
+					"name": "3.1 Create a new user",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"// validate response status code is 201\r",
+									"pm.test(\"[3.1] TC01- Validate Status code for creating new Book is 201\", function () {\r",
+									"    pm.response.to.have.status(201);\r",
+									"});\r",
+									"\r",
+									"// validate response time less than 1000 ms\r",
+									"pm.test(\"[3.1] TC02- Validate Create household Response time is less than 1000ms\", function () {\r",
+									"    pm.expect(pm.response.responseTime).to.be.below(1000);\r",
+									"});\r",
+									"\r",
+									"// validate response schema as expected\r",
+									"pm.test(\"[3.1] TC03- Validate Create household Response Schema as expected\", function () {\r",
+									"    const schema = {\r",
+									"  \"type\": \"object\",\r",
+									"  \"properties\": {\r",
+									"    \"firstName\": {\r",
+									"      \"type\": \"string\"\r",
+									"    },\r",
+									"    \"lastName\": {\r",
+									"      \"type\": \"string\"\r",
+									"    },\r",
+									"    \"email\": {\r",
+									"      \"type\": \"string\"\r",
+									"    },\r",
+									"    \"createdAt\": {\r",
+									"      \"type\": \"string\"\r",
+									"    },\r",
+									"    \"updatedAt\": {\r",
+									"      \"type\": \"string\"\r",
+									"    },\r",
+									"    \"id\": {\r",
+									"      \"type\": \"integer\"\r",
+									"    }\r",
+									"  },\r",
+									"  \"required\": [\r",
+									"    \"firstName\",\r",
+									"    \"lastName\",\r",
+									"    \"email\",\r",
+									"    \"createdAt\",\r",
+									"    \"updatedAt\",\r",
+									"    \"id\"\r",
+									"  ]\r",
+									"}\r",
+									"    pm.response.to.have.jsonSchema(schema);\r",
+									"});\r",
+									"\r",
+									"// validate 'firstnaem' to be as expected\r",
+									"pm.test(\"[3.1] TC04- Validate 'firstname' in response matches request\", function () {\r",
+									"    const requestBody = JSON.parse(pm.request.body.raw);\r",
+									"    pm.expect(pm.response.json().firstName).to.eql(requestBody.firstName);\r",
+									"});\r",
+									"\r",
+									"// validate 'lastname' to be as expected\r",
+									"pm.test(\"[3.1] TC05- Validate 'lastname' in response matches request\", function () {\r",
+									"const requestBody = JSON.parse(pm.request.body.raw);\r",
+									"    pm.expect(pm.response.json().lastName).to.eql(requestBody.lastName);\r",
+									"});\r",
+									"\r",
+									"// validate 'email' to be as expected\r",
+									"pm.test(\"[3.1] TC06- Validate 'email' in response matches request\", function () {\r",
+									"const requestBody = JSON.parse(pm.request.body.raw);\r",
+									"    pm.expect(pm.response.json().email).to.eql(requestBody.email);\r",
+									"});\r",
+									"// save user id\r",
+									" pm.collectionVariables.set(\"userid\",pm.response.json().id);\r",
+									"pm.collectionVariables.set(\"firstnamecreated\",pm.response.json().firstName);\r",
+									"pm.collectionVariables.set(\"lastNamecreated\",pm.response.json().lastName);\r",
+									"pm.collectionVariables.set(\"emailcreated\",pm.response.json().email);"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "basic",
+							"basic": [
+								{
+									"key": "password",
+									"value": "admin",
+									"type": "string"
+								},
+								{
+									"key": "username",
+									"value": "admin",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "Application/json",
+								"type": "text"
+							},
+							{
+								"key": "g-token",
+								"value": "ROM831ESV",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"firstName\": \"{{$randomFirstName}}\",\r\n    \"lastName\": \"{{$randomLastName}}\",\r\n    \"email\": \"{{$randomEmail}}\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseURL}}users",
+							"host": [
+								"{{baseURL}}users"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "3.2 Get user by its ID",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"// validate response status code is 201\r",
+									"pm.test(\"[3.2] TC01- Validate Status code for creating new Book is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"\r",
+									"// validate response time less than 1000 ms\r",
+									"pm.test(\"[3.2] TC02- Validate Create user Response time is less than 1000ms\", function () {\r",
+									"    pm.expect(pm.response.responseTime).to.be.below(1000);\r",
+									"});\r",
+									"\r",
+									"// validate response schema as expected\r",
+									"pm.test(\"[3.2] TC03- Validate Create household Response Schema as expected\", function () {\r",
+									"    const schema = {\r",
+									"  \"type\": \"object\",\r",
+									"  \"properties\": {\r",
+									"    \"firstName\": {\r",
+									"      \"type\": \"string\"\r",
+									"    },\r",
+									"    \"lastName\": {\r",
+									"      \"type\": \"string\"\r",
+									"    },\r",
+									"    \"email\": {\r",
+									"      \"type\": \"string\"\r",
+									"    },\r",
+									"    \"createdAt\": {\r",
+									"      \"type\": \"string\"\r",
+									"    },\r",
+									"    \"updatedAt\": {\r",
+									"      \"type\": \"string\"\r",
+									"    },\r",
+									"    \"id\": {\r",
+									"      \"type\": \"integer\"\r",
+									"    }\r",
+									"  },\r",
+									"  \"required\": [\r",
+									"    \"firstName\",\r",
+									"    \"lastName\",\r",
+									"    \"email\",\r",
+									"    \"createdAt\",\r",
+									"    \"updatedAt\",\r",
+									"    \"id\"\r",
+									"  ]\r",
+									"}\r",
+									"    pm.response.to.have.jsonSchema(schema);\r",
+									"});\r",
+									"\r",
+									"// validate 'firstnaem' to be as expected\r",
+									"pm.test(\"[3.1] TC04- Validate 'firstname' in response matches request\", function () {\r",
+									"    \r",
+									"    pm.expect(pm.response.json().firstName).to.eql(pm.collectionVariables.get(\"firstnamecreated\"));\r",
+									"});\r",
+									"\r",
+									"// validate 'lastname' to be as expected\r",
+									"pm.test(\"[3.1] TC05- Validate 'lastname' in response matches request\", function () {\r",
+									"pm.expect(pm.response.json().lastName).to.eql(pm.collectionVariables.get(\"lastNamecreated\"));\r",
+									"});\r",
+									"\r",
+									"// validate 'email' to be as expected\r",
+									"pm.test(\"[3.1] TC06- Validate 'email' in response matches request\", function () {\r",
+									"pm.expect(pm.response.json().email).to.eql(pm.collectionVariables.get(\"emailcreated\"));\r",
+									"});\r",
+									"\r",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "basic",
+							"basic": [
+								{
+									"key": "password",
+									"value": "admin",
+									"type": "string"
+								},
+								{
+									"key": "username",
+									"value": "admin",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "Application/json",
+								"type": "text"
+							},
+							{
+								"key": "g-token",
+								"value": "ROM831ESV",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "http://localhost:3000/users/:id",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"users",
+								":id"
+							],
+							"variable": [
+								{
+									"key": "id",
+									"value": "{{userid}}"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "3.3 Update user",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"// validate response status code is 201\r",
+									"pm.test(\"[3.3] TC01- Validate Status code for creating new Book is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"\r",
+									"// validate response time less than 1000 ms\r",
+									"pm.test(\"[3.3] TC02- Validate Create household Response time is less than 1000ms\", function () {\r",
+									"    pm.expect(pm.response.responseTime).to.be.below(1000);\r",
+									"});\r",
+									"\r",
+									"// validate response schema as expected\r",
+									"pm.test(\"[3.3] TC03- Validate Create household Response Schema as expected\", function () {\r",
+									"    const schema = {\r",
+									"  \"type\": \"object\",\r",
+									"  \"properties\": {\r",
+									"    \"firstName\": {\r",
+									"      \"type\": \"string\"\r",
+									"    },\r",
+									"    \"lastName\": {\r",
+									"      \"type\": \"string\"\r",
+									"    },\r",
+									"    \"email\": {\r",
+									"      \"type\": \"string\"\r",
+									"    },\r",
+									"    \"createdAt\": {\r",
+									"      \"type\": \"string\"\r",
+									"    },\r",
+									"    \"updatedAt\": {\r",
+									"      \"type\": \"string\"\r",
+									"    },\r",
+									"    \"id\": {\r",
+									"      \"type\": \"integer\"\r",
+									"    }\r",
+									"  },\r",
+									"  \"required\": [\r",
+									"    \"firstName\",\r",
+									"    \"lastName\",\r",
+									"    \"email\",\r",
+									"    \"createdAt\",\r",
+									"    \"updatedAt\",\r",
+									"    \"id\"\r",
+									"  ]\r",
+									"}\r",
+									"    pm.response.to.have.jsonSchema(schema);\r",
+									"});\r",
+									"\r",
+									"// validate 'firstnaem' to be as expected\r",
+									"pm.test(\"[3.3] TC04- Validate 'firstname' in response matches request\", function () {\r",
+									"    const requestBody = JSON.parse(pm.request.body.raw);\r",
+									"    pm.expect(pm.response.json().firstName).to.eql(requestBody.firstName);\r",
+									"});\r",
+									"\r",
+									"// validate 'lastname' to be as expected\r",
+									"pm.test(\"[3.3] TC05- Validate 'lastname' in response matches request\", function () {\r",
+									"const requestBody = JSON.parse(pm.request.body.raw);\r",
+									"    pm.expect(pm.response.json().lastName).to.eql(requestBody.lastName);\r",
+									"});\r",
+									"\r",
+									"// validate 'email' to be as expected\r",
+									"pm.test(\"[3.3] TC06- Validate 'email' in response matches request\", function () {\r",
+									"const requestBody = JSON.parse(pm.request.body.raw);\r",
+									"    pm.expect(pm.response.json().email).to.eql(requestBody.email);\r",
+									"});\r",
+									"// save user id\r",
+									" pm.collectionVariables.set(\"userid\",pm.response.json().id);\r",
+									"pm.collectionVariables.set(\"firstnamecreated\",pm.response.json().firstName);\r",
+									"pm.collectionVariables.set(\"lastNamecreated\",pm.response.json().lastName);\r",
+									"pm.collectionVariables.set(\"emailcreated\",pm.response.json().email);"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "basic",
+							"basic": [
+								{
+									"key": "password",
+									"value": "admin",
+									"type": "string"
+								},
+								{
+									"key": "username",
+									"value": "admin",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "Application/json",
+								"type": "text"
+							},
+							{
+								"key": "g-token",
+								"value": "ROM831ESV",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"firstName\": \"{{$randomFirstName}}\",\r\n    \"lastName\": \"{{$randomLastName}}\",\r\n    \"email\": \"{{$randomEmail}}\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:3000/users/:id",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"users",
+								":id"
+							],
+							"variable": [
+								{
+									"key": "id",
+									"value": "{{userid}}"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "3.4 Get user after update",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"// validate response status code is 201\r",
+									"pm.test(\"[3.4] TC01- Validate Status code for creating new Book is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"\r",
+									"// validate response time less than 1000 ms\r",
+									"pm.test(\"[3.4] TC02- Validate Create user Response time is less than 1000ms\", function () {\r",
+									"    pm.expect(pm.response.responseTime).to.be.below(1000);\r",
+									"});\r",
+									"\r",
+									"// validate response schema as expected\r",
+									"pm.test(\"[3.4] TC03- Validate Create household Response Schema as expected\", function () {\r",
+									"    const schema = {\r",
+									"  \"type\": \"object\",\r",
+									"  \"properties\": {\r",
+									"    \"firstName\": {\r",
+									"      \"type\": \"string\"\r",
+									"    },\r",
+									"    \"lastName\": {\r",
+									"      \"type\": \"string\"\r",
+									"    },\r",
+									"    \"email\": {\r",
+									"      \"type\": \"string\"\r",
+									"    },\r",
+									"    \"createdAt\": {\r",
+									"      \"type\": \"string\"\r",
+									"    },\r",
+									"    \"updatedAt\": {\r",
+									"      \"type\": \"string\"\r",
+									"    },\r",
+									"    \"id\": {\r",
+									"      \"type\": \"integer\"\r",
+									"    }\r",
+									"  },\r",
+									"  \"required\": [\r",
+									"    \"firstName\",\r",
+									"    \"lastName\",\r",
+									"    \"email\",\r",
+									"    \"createdAt\",\r",
+									"    \"updatedAt\",\r",
+									"    \"id\"\r",
+									"  ]\r",
+									"}\r",
+									"    pm.response.to.have.jsonSchema(schema);\r",
+									"});\r",
+									"\r",
+									"// validate 'firstnaem' to be as expected\r",
+									"pm.test(\"[3.4] TC04- Validate 'firstname' in response matches request\", function () {\r",
+									"    \r",
+									"    pm.expect(pm.response.json().firstName).to.eql(pm.collectionVariables.get(\"firstnamecreated\"));\r",
+									"});\r",
+									"\r",
+									"// validate 'lastname' to be as expected\r",
+									"pm.test(\"[3.4] TC05- Validate 'lastname' in response matches request\", function () {\r",
+									"pm.expect(pm.response.json().lastName).to.eql(pm.collectionVariables.get(\"lastNamecreated\"));\r",
+									"});\r",
+									"\r",
+									"// validate 'email' to be as expected\r",
+									"pm.test(\"[3.4] TC06- Validate 'email' in response matches request\", function () {\r",
+									"pm.expect(pm.response.json().email).to.eql(pm.collectionVariables.get(\"emailcreated\"));\r",
+									"});\r",
+									"\r",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "basic",
+							"basic": [
+								{
+									"key": "password",
+									"value": "admin",
+									"type": "string"
+								},
+								{
+									"key": "username",
+									"value": "admin",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "Application/json",
+								"type": "text"
+							},
+							{
+								"key": "g-token",
+								"value": "ROM831ESV",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "http://localhost:3000/users/:id",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"users",
+								":id"
+							],
+							"variable": [
+								{
+									"key": "id",
+									"value": "{{userid}}"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "3.5 Delete User",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"// validate response status code is 404\r",
+									"pm.test(\"[3.5] TC01- Validate Status code for delete user is 202\", function () {\r",
+									"    pm.response.to.have.status(202);\r",
+									"});\r",
+									"\r",
+									"// validate response time less than 1000 ms\r",
+									"pm.test(\"[3.5] TC02- Validate Create delete user response time is less than 1000ms\", function () {\r",
+									"    pm.expect(pm.response.responseTime).to.be.below(1000);\r",
+									"});\r",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "basic",
+							"basic": [
+								{
+									"key": "password",
+									"value": "admin",
+									"type": "string"
+								},
+								{
+									"key": "username",
+									"value": "admin",
+									"type": "string"
+								}
+							]
+						},
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "Application/json",
+								"type": "text"
+							},
+							{
+								"key": "g-token",
+								"value": "ROM831ESV",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "http://localhost:3000/users/:id",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"users",
+								":id"
+							],
+							"variable": [
+								{
+									"key": "id",
+									"value": "{{userid}}"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "3.6 Get user after delete",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"// validate response status code is 201\r",
+									"pm.test(\"[3.6] TC01- Validate Status code for creating new Book is 404\", function () {\r",
+									"    pm.response.to.have.status(404);\r",
+									"});\r",
+									"pm.test(\"[3.6] Tc02- Check if user not found\", function () {\r",
+									"    var jsonData = pm.response.json();\r",
+									"    pm.expect(jsonData.message).to.eql(\"User not found\");\r",
+									"});\r",
+									"\r",
+									"\r",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "basic",
+							"basic": [
+								{
+									"key": "password",
+									"value": "admin",
+									"type": "string"
+								},
+								{
+									"key": "username",
+									"value": "admin",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "Application/json",
+								"type": "text"
+							},
+							{
+								"key": "g-token",
+								"value": "ROM831ESV",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "http://localhost:3000/users/:id",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"users",
+								":id"
+							],
+							"variable": [
+								{
+									"key": "id",
+									"value": "{{userid}}"
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "4- Wishlists",
+			"item": [
+				{
+					"name": "4.1 Create a new wishlist",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"// validate response status code is 201\r",
+									"pm.test(\"[4.1] TC01- Validate Status code for creating new Book is 201\", function () {\r",
+									"    pm.response.to.have.status(201);\r",
+									"});\r",
+									"\r",
+									"// validate response time less than 1000 ms\r",
+									"pm.test(\"[4.1] TC02- Validate Create household Response time is less than 1000ms\", function () {\r",
+									"    pm.expect(pm.response.responseTime).to.be.below(1000);\r",
+									"});\r",
+									"\r",
+									"// validate response schema as expected\r",
+									"pm.test(\"[4.1] TC03- Validate Create household Response Schema as expected\", function () {\r",
+									"    const schema = {\r",
+									"  \"type\": \"object\",\r",
+									"  \"properties\": {\r",
+									"    \"name\": {\r",
+									"      \"type\": \"string\"\r",
+									"    },\r",
+									"    \"books\": {\r",
+									"      \"type\": \"array\",\r",
+									"      \"items\": {}\r",
+									"    },\r",
+									"    \"createdAt\": {\r",
+									"      \"type\": \"string\"\r",
+									"    },\r",
+									"    \"updatedAt\": {\r",
+									"      \"type\": \"string\"\r",
+									"    },\r",
+									"    \"id\": {\r",
+									"      \"type\": \"integer\"\r",
+									"    }\r",
+									"  },\r",
+									"  \"required\": [\r",
+									"    \"name\",\r",
+									"    \"books\",\r",
+									"    \"createdAt\",\r",
+									"    \"updatedAt\",\r",
+									"    \"id\"\r",
+									"  ]\r",
+									"}\r",
+									"    pm.response.to.have.jsonSchema(schema);\r",
+									"});\r",
+									"\r",
+									"// validate 'name' to be as expected\r",
+									"pm.test(\"[4.1] TC04- Validate 'name' in response matches request\", function () {\r",
+									"    const requestBody = JSON.parse(pm.request.body.raw);\r",
+									"    pm.expect(pm.response.json().name).to.eql(requestBody.name);\r",
+									"});\r",
+									"\r",
+									"// save wishlist id\r",
+									" pm.collectionVariables.set(\"wishlistid\",pm.response.json().id);\r",
+									" // save wishlist name\r",
+									" pm.collectionVariables.set(\"wishlistname\",pm.response.json().name);\r",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "basic",
+							"basic": [
+								{
+									"key": "password",
+									"value": "admin",
+									"type": "string"
+								},
+								{
+									"key": "username",
+									"value": "admin",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "Application/json",
+								"type": "text"
+							},
+							{
+								"key": "g-token",
+								"value": "ROM831ESV",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"name\": \"{{$randomProductName}}\",\r\n    \"books\": []\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:3000/wishlists",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"wishlists"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "4.2 Get wishlist after create",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"// validate response status code is 201\r",
+									"pm.test(\"[4.2] TC01- Validate Status code for creating new Book is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"\r",
+									"// validate response time less than 1000 ms\r",
+									"pm.test(\"[4.2] TC02- Validate Create user Response time is less than 1000ms\", function () {\r",
+									"    pm.expect(pm.response.responseTime).to.be.below(1000);\r",
+									"});\r",
+									"\r",
+									"// validate response schema as expected\r",
+									"pm.test(\"[4.2] TC03- Validate Create household Response Schema as expected\", function () {\r",
+									"    const schema = {\r",
+									"  \"type\": \"object\",\r",
+									"  \"properties\": {\r",
+									"    \"name\": {\r",
+									"      \"type\": \"string\"\r",
+									"    },\r",
+									"    \"books\": {\r",
+									"      \"type\": \"array\",\r",
+									"      \"items\": {}\r",
+									"    },\r",
+									"    \"createdAt\": {\r",
+									"      \"type\": \"string\"\r",
+									"    },\r",
+									"    \"updatedAt\": {\r",
+									"      \"type\": \"string\"\r",
+									"    },\r",
+									"    \"id\": {\r",
+									"      \"type\": \"integer\"\r",
+									"    }\r",
+									"  },\r",
+									"  \"required\": [\r",
+									"    \"name\",\r",
+									"    \"books\",\r",
+									"    \"createdAt\",\r",
+									"    \"updatedAt\",\r",
+									"    \"id\"\r",
+									"  ]\r",
+									"}\r",
+									"    pm.response.to.have.jsonSchema(schema);\r",
+									"});\r",
+									"\r",
+									"\r",
+									"// validate 'name' to be as expected\r",
+									"pm.test(\"[4.2] TC05- Validate 'name' in response matches request\", function () {\r",
+									"pm.expect(pm.response.json().name).to.eql(pm.collectionVariables.get(\"wishlistname\"));\r",
+									"});\r",
+									"\r",
+									"// validate 'id' to be as expected\r",
+									"pm.test(\"[4.2] TC05- Validate 'id' in response matches request\", function () {\r",
+									"pm.expect(pm.response.json().id).to.eql(pm.collectionVariables.get(\"wishlistid\"));\r",
+									"});\r",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "basic",
+							"basic": [
+								{
+									"key": "password",
+									"value": "admin",
+									"type": "string"
+								},
+								{
+									"key": "username",
+									"value": "admin",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "Application/json",
+								"type": "text"
+							},
+							{
+								"key": "g-token",
+								"value": "ROM831ESV",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "http://localhost:3000/wishlists/:id",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"wishlists",
+								":id"
+							],
+							"variable": [
+								{
+									"key": "id",
+									"value": "{{wishlistid}}"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "4.3 Update a wishlist by its ID",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"// validate response status code is 201\r",
+									"pm.test(\"[4.3] TC01- Validate Status code for creating new Book is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"\r",
+									"// validate response time less than 1000 ms\r",
+									"pm.test(\"[4.3] TC02- Validate Create household Response time is less than 1000ms\", function () {\r",
+									"    pm.expect(pm.response.responseTime).to.be.below(1000);\r",
+									"});\r",
+									"\r",
+									"// validate response schema as expected\r",
+									"pm.test(\"[4.3] TC03- Validate Create household Response Schema as expected\", function () {\r",
+									"    const schema = {\r",
+									"  \"type\": \"object\",\r",
+									"  \"properties\": {\r",
+									"    \"name\": {\r",
+									"      \"type\": \"string\"\r",
+									"    },\r",
+									"    \"books\": {\r",
+									"      \"type\": \"array\",\r",
+									"      \"items\": {}\r",
+									"    },\r",
+									"    \"createdAt\": {\r",
+									"      \"type\": \"string\"\r",
+									"    },\r",
+									"    \"updatedAt\": {\r",
+									"      \"type\": \"string\"\r",
+									"    },\r",
+									"    \"id\": {\r",
+									"      \"type\": \"integer\"\r",
+									"    }\r",
+									"  },\r",
+									"  \"required\": [\r",
+									"    \"name\",\r",
+									"    \"books\",\r",
+									"    \"createdAt\",\r",
+									"    \"updatedAt\",\r",
+									"    \"id\"\r",
+									"  ]\r",
+									"}\r",
+									"    pm.response.to.have.jsonSchema(schema);\r",
+									"});\r",
+									"\r",
+									"// validate 'name' to be as expected\r",
+									"pm.test(\"[4.3] TC04- Validate 'name' in response matches request\", function () {\r",
+									"    const requestBody = JSON.parse(pm.request.body.raw);\r",
+									"    pm.expect(pm.response.json().name).to.eql(requestBody.name);\r",
+									"});\r",
+									"\r",
+									"// validate 'id' to be as expected\r",
+									"pm.test(\"[4.3] TC05- Validate 'id' in response matches request\", function () {\r",
+									"pm.expect(pm.response.json().id).to.eql(pm.collectionVariables.get(\"wishlistid\"));\r",
+									"});\r",
+									"\r",
+									"// save wishlist name\r",
+									" pm.collectionVariables.set(\"wishlistnameafterupdate\",pm.response.json().name);"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "basic",
+							"basic": [
+								{
+									"key": "password",
+									"value": "admin",
+									"type": "string"
+								},
+								{
+									"key": "username",
+									"value": "admin",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "Application/json",
+								"type": "text"
+							},
+							{
+								"key": "g-token",
+								"value": "ROM831ESV",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"name\": \"{{$randomProductName}}\",\r\n    \"books\": []\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:3000/wishlists/:id",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"wishlists",
+								":id"
+							],
+							"variable": [
+								{
+									"key": "id",
+									"value": "{{wishlistid}}"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "4.4 Get wishlist after update",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"// validate response status code is 201\r",
+									"pm.test(\"[4.4] TC01- Validate Status code for creating new Book is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"\r",
+									"// validate response time less than 1000 ms\r",
+									"pm.test(\"[4.4] TC02- Validate Create user Response time is less than 1000ms\", function () {\r",
+									"    pm.expect(pm.response.responseTime).to.be.below(1000);\r",
+									"});\r",
+									"\r",
+									"// validate response schema as expected\r",
+									"pm.test(\"[4.4] TC03- Validate Create household Response Schema as expected\", function () {\r",
+									"    const schema = {\r",
+									"  \"type\": \"object\",\r",
+									"  \"properties\": {\r",
+									"    \"name\": {\r",
+									"      \"type\": \"string\"\r",
+									"    },\r",
+									"    \"books\": {\r",
+									"      \"type\": \"array\",\r",
+									"      \"items\": {}\r",
+									"    },\r",
+									"    \"createdAt\": {\r",
+									"      \"type\": \"string\"\r",
+									"    },\r",
+									"    \"updatedAt\": {\r",
+									"      \"type\": \"string\"\r",
+									"    },\r",
+									"    \"id\": {\r",
+									"      \"type\": \"integer\"\r",
+									"    }\r",
+									"  },\r",
+									"  \"required\": [\r",
+									"    \"name\",\r",
+									"    \"books\",\r",
+									"    \"createdAt\",\r",
+									"    \"updatedAt\",\r",
+									"    \"id\"\r",
+									"  ]\r",
+									"}\r",
+									"    pm.response.to.have.jsonSchema(schema);\r",
+									"});\r",
+									"\r",
+									"\r",
+									"// validate 'name' to be as expected\r",
+									"pm.test(\"[4.4] TC05- Validate 'name' in response matches request\", function () {\r",
+									"pm.expect(pm.response.json().name).to.eql(pm.collectionVariables.get(\"wishlistnameafterupdate\"));\r",
+									"});\r",
+									"\r",
+									"// validate 'id' to be as expected\r",
+									"pm.test(\"[4.4] TC05- Validate 'id' in response matches request\", function () {\r",
+									"pm.expect(pm.response.json().id).to.eql(pm.collectionVariables.get(\"wishlistid\"));\r",
+									"});\r",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "basic",
+							"basic": [
+								{
+									"key": "password",
+									"value": "admin",
+									"type": "string"
+								},
+								{
+									"key": "username",
+									"value": "admin",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "Application/json",
+								"type": "text"
+							},
+							{
+								"key": "g-token",
+								"value": "ROM831ESV",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "http://localhost:3000/wishlists/:id",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"wishlists",
+								":id"
+							],
+							"variable": [
+								{
+									"key": "id",
+									"value": "{{wishlistid}}"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "4.5 Delete wishlist By ID",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"// validate response status code is 201\r",
+									"pm.test(\"[4.5] TC01- Validate Status code for creating new Book is 204\", function () {\r",
+									"    pm.response.to.have.status(204);\r",
+									"});\r",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "basic",
+							"basic": [
+								{
+									"key": "password",
+									"value": "admin",
+									"type": "string"
+								},
+								{
+									"key": "username",
+									"value": "admin",
+									"type": "string"
+								}
+							]
+						},
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "Application/json",
+								"type": "text"
+							},
+							{
+								"key": "g-token",
+								"value": "ROM831ESV",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "http://localhost:3000/wishlists/:id",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"wishlists",
+								":id"
+							],
+							"variable": [
+								{
+									"key": "id",
+									"value": "{{wishlistid}}"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "4.6 Get wishlist after delete",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"// validate response status code is 201\r",
+									"pm.test(\"[4.6] TC01- Validate Status code for creating new Book is 404\", function () {\r",
+									"    pm.response.to.have.status(404);\r",
+									"});\r",
+									"\r",
+									"// validate response time less than 1000 ms\r",
+									"pm.test(\"[4.16] TC02- Validate Create household Response time is less than 1000ms\", function () {\r",
+									"    pm.expect(pm.response.responseTime).to.be.below(1000);\r",
+									"});\r",
+									"pm.test(\"[4.6] Tc02- Check if wishlist not found\", function () {\r",
+									"    var jsonData = pm.response.json();\r",
+									"    pm.expect(jsonData.message).to.eql(\"Wishlist not found\");\r",
+									"});\r",
+									"\r",
+									"\r",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "basic",
+							"basic": [
+								{
+									"key": "password",
+									"value": "admin",
+									"type": "string"
+								},
+								{
+									"key": "username",
+									"value": "admin",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "Application/json",
+								"type": "text"
+							},
+							{
+								"key": "g-token",
+								"value": "ROM831ESV",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "http://localhost:3000/wishlists/:id",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"wishlists",
+								":id"
+							],
+							"variable": [
+								{
+									"key": "id",
+									"value": "{{wishlistid}}"
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"packages": {},
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"packages": {},
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "BookID",
+			"value": 47
+		},
+		{
+			"key": "Token",
+			"value": "94e03697-36ba-33d0-bf88-eae6aeb4380e",
+			"type": "default"
+		},
+		{
+			"key": "UpdatedBookID",
+			"value": 47
+		},
+		{
+			"key": "UpdatedBookTitle",
+			"value": "Gorgeous Soft Pants"
+		},
+		{
+			"key": "UpdatedBookAuther",
+			"value": "Esther McKenzie"
+		},
+		{
+			"key": "UpdatedBookISBN",
+			"value": "v"
+		},
+		{
+			"key": "UpdatedReleaseDate",
+			"value": "Wed Oct 29 2025 08:15:38 GMT+0300 (Eastern European Summer Time)"
+		},
+		{
+			"key": "NewName",
+			"value": "Licensed Granite Shoes"
+		},
+		{
+			"key": "Created",
+			"value": "2025-05-06T01:07:52.297Z"
+		},
+		{
+			"key": "Updated",
+			"value": "2025-05-06T01:07:52.297Z"
+		},
+		{
+			"key": "CreatedDate",
+			"value": "2025-05-06T22:52:14.194Z"
+		},
+		{
+			"key": "UpdatedDate",
+			"value": "2025-05-06T22:52:14.194Z"
+		},
+		{
+			"key": "Title",
+			"value": "Rest Assured"
+		},
+		{
+			"key": "Auther",
+			"value": "Reheem"
+		},
+		{
+			"key": "ISBN",
+			"value": "12345"
+		},
+		{
+			"key": "PubDate",
+			"value": "12/12/2020"
+		},
+		{
+			"key": "HouseholdcreatedAt",
+			"value": "2025-05-04T21:40:09.557Z"
+		},
+		{
+			"key": "HouseholdupdatedAt",
+			"value": "2025-05-04T21:40:09.557Z"
+		},
+		{
+			"key": "Rel",
+			"value": "self"
+		},
+		{
+			"key": "href",
+			"value": "http://localhost:3000/books/26"
+		},
+		{
+			"key": "NewNameAfterUpdate",
+			"value": null
+		},
+		{
+			"key": "AfterUpdateAt",
+			"value": null
+		},
+		{
+			"key": "AfterUpdateID",
+			"value": null
+		},
+		{
+			"key": "TTTTitle",
+			"value": null
+		},
+		{
+			"key": "householdID",
+			"value": 52
+		},
+		{
+			"key": "housholdName",
+			"value": "Gorgeous Frozen Shirt"
+		},
+		{
+			"key": "CreatedAtDate",
+			"value": "2025-05-07T13:32:08.569Z"
+		},
+		{
+			"key": "UpdatedAtDate",
+			"value": "2025-05-07T13:32:08.569Z"
+		},
+		{
+			"key": "userid",
+			"value": 38
+		},
+		{
+			"key": "firstnamecreated",
+			"value": "Baby"
+		},
+		{
+			"key": "lastNamecreated",
+			"value": "Williamson"
+		},
+		{
+			"key": "emailcreated",
+			"value": "Carmen_Wintheiser39@hotmail.com"
+		},
+		{
+			"key": "wishlistid",
+			"value": 43
+		},
+		{
+			"key": "wishlistname",
+			"value": "Ergonomic Frozen Towels"
+		},
+		{
+			"key": "wishlistnameafterupdate",
+			"value": ""
+		}
+	]
+}
