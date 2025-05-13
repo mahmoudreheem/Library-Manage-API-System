@@ -17,7 +17,10 @@ Library Management System is a Library application that provides various booking
 
 ## Examples
 
-### ![Local testing execution example](Video Library Management System.gif)
+### Local Testing Execution Example
+
+![Local testing execution example](Video%20Library%20Management%20System.gif)
+
 
 
 ## Features
